@@ -44,12 +44,26 @@ class CatodoroTimer {
         this.setDurationBtn = document.getElementById('set-duration-btn');
         this.mascot = document.getElementById('mascot');
         this.audioPlayer = document.getElementById('meow-player');
+        this.purrPlayer = document.getElementById('purr-player');
+
+        // Adjust purr volume to be subtle
+        this.purrPlayer.volume = 0.5;
 
         // Bind events
         this.startBtn.addEventListener('click', () => this.start());
         this.stopBtn.addEventListener('click', () => this.stop());
         this.resetBtn.addEventListener('click', () => this.reset());
         this.setDurationBtn.addEventListener('click', () => this.setCustomDuration());
+
+        // Purr on Hover
+        this.mascot.addEventListener('mouseenter', () => {
+            this.purrPlayer.play().catch(e => console.log("Interaction required for purr (or file missing)", e));
+        });
+
+        this.mascot.addEventListener('mouseleave', () => {
+            this.purrPlayer.pause();
+            this.purrPlayer.currentTime = 0; // Reset to start
+        });
 
         // Worker Listener
         this.timerWorker.onmessage = (e) => {
